@@ -86,6 +86,17 @@ class InlineAgent:
                     ActionGroup.model_validate(action_group)
                 self.action_groups = ActionGroups(action_groups=self.action_groups)
 
+            # Limit descriptions in action groups to 1200 characters
+            for action_group in self.action_groups.actionGroups:
+                if "description" in action_group and len(action_group["description"]) > 1200:
+                    action_group["description"] = action_group["description"][:1200]
+                
+                # Also limit function descriptions in functionSchema
+                if "functionSchema" in action_group and "functions" in action_group["functionSchema"]:
+                    for function in action_group["functionSchema"]["functions"]:
+                        if "description" in function and len(function["description"]) > 1200:
+                            function["description"] = function["description"][:1200]
+
             self.tool_map = self.action_groups.tool_map
 
             self.action_groups = self.action_groups.actionGroups
