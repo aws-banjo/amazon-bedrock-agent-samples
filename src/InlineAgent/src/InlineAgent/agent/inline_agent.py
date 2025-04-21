@@ -243,9 +243,11 @@ class InlineAgent:
 
         agent_answer = ""
 
-        bedrock_agent_runtime = boto3.Session(profile_name=self.profile).client(
-            "bedrock-agent-runtime"
-        )
+        # bedrock_agent_runtime = boto3.Session(profile_name=self.profile).client(
+        #     "bedrock-agent-runtime"
+        # )
+        # For workshop
+        bedrock_agent_runtime = boto3.client('bedrock-agent-runtime',region_name="us-west-2")
 
         inlineSessionState = copy.deepcopy(session_state)
 
